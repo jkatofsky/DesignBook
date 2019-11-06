@@ -22,7 +22,8 @@ All the material on this site is organized by book chapter. To the extent possib
 
 * [Source code](chapter-code/chapter3)
 * [Exercises](exercises/e-chapter3.md)
-* [Solutions](solutions/s-chapter3.md)
+* [Solutions](solutions/s-chapter3.md) 
+* [Clarifications and Corrections](corrections/c-chapter3.md)
 
 
 ## Chapter 4: Object State
@@ -36,15 +37,22 @@ All the material on this site is organized by book chapter. To the extent possib
 ## Chapter 5: Unit Testing
 
 * [Source code](chapter-code/chapter5)
+* [Exercises](exercises/e-chapter5.md)
+* [Solutions](solutions/s-chapter5.md)
 
 ## Chapter 6: Composition
 
 * [Source code](chapter-code/chapter6)
+* [Exercises](exercises/e-chapter6.md)
+* [Solutions](solutions/s-chapter6.md)
 * [Clarifications and Corrections](corrections/c-chapter6.md)
 
 ## Chapter 7: Inheritance
 
 * [Source code](chapter-code/chapter7)
+* [Exercises](exercises/e-chapter7.md)
+* [Solutions](solutions/s-chapter7.md)
+* [Clarifications and Corrections](corrections/c-chapter7.md)
 
 ## Chapter 8: Inversion of Control
 
