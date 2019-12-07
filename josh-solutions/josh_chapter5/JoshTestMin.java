@@ -1,8 +1,10 @@
+package josh_chapter5;
+
 import java.lang.Math;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.Test;
 
-public class TestMin {
+public class JoshTestMin {
 
     @Test
     public void testMin_FirstSmaller() {
@@ -32,7 +34,7 @@ public class TestMin {
     }
 
     public static void main(String[] args) {
-        TestMin tm = new TestMin();
+        JoshTestMin tm = new JoshTestMin();
         tm.testMin_FirstSmaller();
         tm.testMin_SecondSmaller();
         tm.testMin_Equal();

@@ -1,6 +1,8 @@
+package josh_chapter5;
+
 import java.lang.reflect.Method;
 
-public class StringMeta {
+public class JoshStringMeta {
     public static void main(String[] args) {
         try {
             for (Method m : String.class.getDeclaredMethods()) {

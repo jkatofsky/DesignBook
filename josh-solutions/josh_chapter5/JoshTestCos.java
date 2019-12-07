@@ -1,8 +1,10 @@
+package josh_chapter5;
+
 import java.lang.Math;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.Test;
 
-public class TestCos {
+public class JoshTestCos {
 
     private final double DELTA = 0.0001;
 
