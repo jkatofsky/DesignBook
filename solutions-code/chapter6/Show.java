@@ -27,4 +27,6 @@ public interface Show
 	 * @return The running time of the show, in minutes.
 	 */
 	int runningTime();
+	
+	Show copy();
 }

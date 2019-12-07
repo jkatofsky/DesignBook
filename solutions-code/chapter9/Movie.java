@@ -1,17 +1,4 @@
-/*******************************************************************************
- * Companion code for the book "Introduction to Software Design with Java" 
- * by Martin P. Robillard.
- *
- * Copyright (C) 2019 by Martin P. Robillard
- *
- * This code is licensed under a Creative Commons 
- * Attribution-NonCommercial-NoDerivatives 4.0 International License.
- * 
- * See http://creativecommons.org/licenses/by-nc-nd/4.0/
- *******************************************************************************/
-package chapter6;
-
-import java.util.Objects;
+package chapter9;
 
 /**
  * Represents a show that consists of the screening of a single movie.
@@ -34,6 +21,11 @@ public class Movie implements Show
 		aRunningTime = pTime;
 	}
 	
+	public int year()
+	{
+		return aYear;
+	}
+	
 	public Movie(Movie pMovie)
 	{
 		aTitle = pMovie.aTitle;
@@ -44,27 +36,36 @@ public class Movie implements Show
 	@Override
 	public String description()
 	{
-		return String.format("%s (%d)", aTitle, aYear);
+		return String.format("[%s (%d): %d minutes]", aTitle, aYear, aRunningTime);
+	}
+	
+	public String title()
+	{
+		return aTitle;
 	}
 
 	@Override
-	public int runningTime()
+	public int time()
 	{
 		return aRunningTime;
 	}
-
-	@Override
-	public Show copy()
+	
+	public String toString()
 	{
-		return new Movie(this);
+		return description();
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(aRunningTime, aTitle, aYear);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + aRunningTime;
+		result = prime * result + ((aTitle == null) ? 0 : aTitle.hashCode());
+		result = prime * result + aYear;
+		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -75,6 +76,17 @@ public class Movie implements Show
 		if (getClass() != obj.getClass())
 			return false;
 		Movie other = (Movie) obj;
-		return aRunningTime == other.aRunningTime && Objects.equals(aTitle, other.aTitle) && aYear == other.aYear;
+		if (aRunningTime != other.aRunningTime)
+			return false;
+		if (aTitle == null)
+		{
+			if (other.aTitle != null)
+				return false;
+		}
+		else if (!aTitle.equals(other.aTitle))
+			return false;
+		if (aYear != other.aYear)
+			return false;
+		return true;
 	}
 }

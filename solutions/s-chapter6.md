@@ -265,7 +265,7 @@ public void testCopy()
 ```
 However, this test does not have very much bug-finding power because the test would still pass if references are shared within the object structure. To properly test the structure, it would be necessary to "unpack" the aggregator objects within the structure (`CompositeShow` and `IntroducedShow`). For `CompositeShow` it isn't so bad if we assume the iterator of Exercise 8 is available. However, getting at the element wrapped by `IntroducedShow` would require more work, for example the use of reflection. The end test would be a mess of iterations and tests. What is to be observed from this exercise is that using elaborate recursive structures as input and oracle is perhaps not the best way to go about testing a recursive method. Ideally, each implementation should be tested in isolation, using stubs to verify the copying is deep.
 
-# Exercise 14
+## Exercise 14
 
 For the Null show requirement I decided to use an anonymous class and encapsulate everything within `Program` to minimize the API related to the Null show case, but other solutions are possible:
 
@@ -332,6 +332,189 @@ public Show get(Day pDay)
    return aShows.get(pDay);
 }
 ```
+
+## Exercise 15
+
+We need a `Command` interface:
+
+```java
+interface Command
+{
+	void execute();
+}
+```
+
+and within class `Program` three instance methods to act as command factories:
+
+```java
+public Command createAddCommand(Show pShow, Day pDay)
+{
+   return new Command() {
+      @Override
+      public void execute()
+      {
+         add(pShow, pDay);				
+      }
+   };
+}
+	
+public Command createRemoveCommand(Day pDay)
+{
+   return new Command() 
+   {
+      @Override
+      public void execute()
+      {
+         remove(pDay);				
+      }
+   };
+}
+	
+public Command createClearCommand()
+{
+   return new Command() 
+   {
+      @Override
+      public void execute()
+      {
+         clear();				
+      }
+   };
+}
+```
+
+Executing commands can now be done through command objects, e.g.:
+
+```java
+Program program = new Program();
+program.createAddCommand(new Movie("Title",2000,120), MONDAY).execute();
+```
+
+## Exercise 16
+
+The `Command` interface now needs an `undo()` method:
+
+```java
+interface Command
+{
+	void execute();
+	void undo();
+}
+```
+
+Consequently all the command factories need an implementation of `undo`. The one for undoing additions is fairly straightforward:
+
+```java
+public Command createAddCommand(Show pShow, Day pDay)
+{
+   return new Command() 
+   {
+      @Override
+      public void execute()
+      {
+         add(pShow, pDay);				
+      }
+
+      @Override
+      public void undo()
+      {
+         remove(pDay);				
+      }
+   };
+}
+```
+
+For undoing removal, it's slightly more tricky as we need to keep a reference to the show that was removed (so that we can restore it). We can do with by declaring a field in our anonymous class:
+
+```java
+public Command createRemoveCommand(Day pDay)
+{
+   return new Command() 
+   {
+      Show show = aShows.get(pDay);
+      @Override
+      public void execute()
+      {
+         show = aShows.get(pDay);
+         remove(pDay);				
+      }
+			
+      @Override
+      public void undo()
+      {
+         add(show, pDay);
+      }
+   };
+}
+```
+
+For clearing the program, things a more involved, since it requires making a copy of the map of shows and restoring the map in `Program` using the values in the copy.
+
+## Exercise 17
+
+```java
+public class CommandProcessor
+{
+   private final List<Command> aCommands = new ArrayList<>();
+	
+   public void consume(Command pCommand)
+   {
+      pCommand.execute();
+      aCommands.add(pCommand);
+   }
+	
+   public void undoLast()
+   {
+      assert !aCommands.isEmpty();
+      Command command = aCommands.remove(aCommands.size()-1);
+      command.undo();
+   }
+}
+```
+
+## Exercise 18
+
+We need another stack of undone commands:
+
+```java
+public class CommandProcessor implements CommandProcessor
+{
+   private final List<Command> aExecutedCommands = new ArrayList<>();
+   private final List<Command> aUndoneCommands = new ArrayList<>();
+
+   @Override
+   public void consume(Command pCommand)
+   {
+      pCommand.execute();
+      aExecutedCommands.add(pCommand);
+   }
+	
+   @Override
+   public void undoLast()
+   {
+      assert !aExecutedCommands.isEmpty();
+      Command command = aExecutedCommands.remove(aExecutedCommands.size()-1);
+      command.undo();
+      aUndoneCommands.add(command);
+   }
+	
+   public void redoLast()
+   {
+      assert !aUndoneCommands.isEmpty();
+      Command command = aUndoneCommands.remove(aUndoneCommands.size()-1);
+      command.undo();
+      aExecutedCommands.add(command);
+   }
+}
+```
+
+## Exercise 19
+
+We can reuse our `CommandProcessor` and aggregate an object of this type within `Program`. The command factory methods can then be made private, and `Program`'s interface methods can then internally create a command and request that the processor consume it. The process is illustrated for method `clear()`. To decouple class `Program` from the implementation of a command processor, we can extract its interface, implement it, and *inject* that dependency through the constructor of `Program`.
+
+![](c6-exercise19.png)
+
+[Diagram file](c6-exercise19.class.jet)
 
 ---
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a>
