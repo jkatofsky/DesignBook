@@ -1,4 +1,4 @@
-package josh_chapter1;
+package chapter1;
 
 public class JoshTwelveDaysIterative {
 

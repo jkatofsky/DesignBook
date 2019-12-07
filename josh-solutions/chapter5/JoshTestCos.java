@@ -1,4 +1,4 @@
-package josh_chapter5;
+package chapter5;
 
 import java.lang.Math;
 import static org.junit.jupiter.api.Assertions.*;

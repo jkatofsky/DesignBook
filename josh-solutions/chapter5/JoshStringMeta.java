@@ -1,4 +1,4 @@
-package josh_chapter5;
+package chapter5;
 
 import java.lang.reflect.Method;
 
