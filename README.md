@@ -1,6 +1,6 @@
 # Introduction to Software Design with Java
 
-Companion web site for the book ["Introduction to Software Design with Java"](https://www.springer.com/gp/book/9783030240936) by Martin P. Robillard, Springer 2019. 
+Companion web site for the book ["Introduction to Software Design with Java"](https://www.springer.com/gp/book/9783030240936) by Martin P. Robillard, Springer 2019 **with solutions to the exercises completed by Josh Katofsky, McGill Computer Science, Graduating Class of 2022.** 
 
 All the material on this site is organized by book chapter. To the extent possible, this site will be actively maintained, with new material being released occasionally. If you would like to report a problem, please use the [issue management system](https://github.com/prmr/DesignBook/issues), making sure the problem has not already been reported in the "Clarifications and Corrections" page for the chapter or in existing issue reports.
 
